@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/coltiebaby/bastion/client"
+	cu "github.com/coltiebaby/bastion/client/clientutil"
+	"github.com/shirou/gopsutil/v3/process"
 	"net/http"
 	"net/url"
 	"os/exec"
 	"regexp"
-
-	"github.com/coltiebaby/bastion/client"
-	cu "github.com/coltiebaby/bastion/client/clientutil"
+	"strings"
 )
 
 type Client struct {
@@ -46,20 +47,22 @@ func CreateFromUnix() (client.Client, error) {
 // Creates a new client from an already open league of legends client using commands
 // that are related to a windows based system
 func CreateFromWindows() (client.Client, error) {
-	cmd := []string{
-		`process`,
-		`where`,
-		`name="ClientUx.exe"`,
-		`get`,
-		`Caption,Processid,Commandline`,
+	var invocation string
+	var err error
+	processes, _ := process.Processes()
+	for _, process := range processes {
+		exe, _ := process.Exe()
+		if strings.Contains(exe, "LeagueClientUx.exe") {
+			invocation, _ = process.Cmdline()
+			break
+		}
 	}
 
-	output, err := exec.Command(`wmic`, cmd...).Output()
 	if err != nil {
 		return &Client{}, NotRunningErr
 	}
 
-	return newClient(output)
+	return newClient([]byte(invocation))
 }
 
 // Both operating systems produce an output where we can find the important pieces for Client
