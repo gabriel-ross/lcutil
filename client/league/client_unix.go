@@ -3,7 +3,7 @@
 package league
 
 import (
-	"github.com/coltiebaby/bastion/client"
+	"github.com/abatewongc/bartender-bastion/client"
 )
 
 func NewFromExisting() (client.Client, error) {

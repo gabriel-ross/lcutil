@@ -11,8 +11,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/coltiebaby/bastion/api/replay"
-	rc "github.com/coltiebaby/bastion/client/replay"
+	"github.com/abatewongc/bartender-bastion/api/replay"
+	rc "github.com/abatewongc/bartender-bastion/client/replay"
 )
 
 func main() {

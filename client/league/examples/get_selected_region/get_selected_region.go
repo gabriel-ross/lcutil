@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http/httputil"
 
-	"github.com/coltiebaby/bastion/client/league"
+	"github.com/abatewongc/bartender-bastion/client/league"
 )
 
 func main() {

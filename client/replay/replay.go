@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/coltiebaby/bastion/client"
-	cu "github.com/coltiebaby/bastion/client/clientutil"
+	"github.com/abatewongc/bartender-bastion/client"
+	cu "github.com/abatewongc/bartender-bastion/client/clientutil"
 )
 
 type Client struct {

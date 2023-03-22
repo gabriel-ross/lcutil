@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/coltiebaby/bastion/api"
-	"github.com/coltiebaby/bastion/client"
-	"github.com/coltiebaby/bastion/components"
+	"github.com/abatewongc/bartender-bastion/api"
+	"github.com/abatewongc/bartender-bastion/client"
+	"github.com/abatewongc/bartender-bastion/components"
 )
 
 type Replay struct {
