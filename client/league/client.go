@@ -1,68 +1,20 @@
 package league
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
-	"github.com/abatewongc/bartender-bastion/client"
-	cu "github.com/abatewongc/bartender-bastion/client/clientutil"
-	"github.com/shirou/gopsutil/v3/process"
 	"net/http"
 	"net/url"
-	"os/exec"
 	"regexp"
-	"strings"
+
+	"github.com/gabriel-ross/lcutil/client"
+	cu "github.com/gabriel-ross/lcutil/client/clientutil"
 )
 
 type Client struct {
 	token string
 	Port  string
 	Path  string
-}
-
-// Create From Unix
-//
-// Creates a new client from an already open league of legends client using commands
-// that are related to a unix based system
-func CreateFromUnix() (client.Client, error) {
-	some_byes, err := exec.Command("ps", "-A").Output()
-	if err != nil {
-		return &Client{}, NotRunningErr
-	}
-
-	cmd := exec.Command("grep", "ClientUx")
-	// Mimic "piping" data from a cmd
-	cmd.Stdin = bytes.NewReader(some_byes)
-
-	output, err := cmd.Output()
-	if err != nil {
-		return &Client{}, NotRunningErr
-	}
-
-	return newClient(output)
-}
-
-// Create From Windows
-//
-// Creates a new client from an already open league of legends client using commands
-// that are related to a windows based system
-func CreateFromWindows() (client.Client, error) {
-	var invocation string
-	var err error
-	processes, _ := process.Processes()
-	for _, process := range processes {
-		exe, _ := process.Exe()
-		if strings.Contains(exe, "LeagueClientUx.exe") {
-			invocation, _ = process.Cmdline()
-			break
-		}
-	}
-
-	if err != nil {
-		return &Client{}, NotRunningErr
-	}
-
-	return newClient([]byte(invocation))
 }
 
 // Both operating systems produce an output where we can find the important pieces for Client

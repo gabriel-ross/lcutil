@@ -15,7 +15,6 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -29,7 +28,7 @@ func addTLSCert(pemfile string) (*tls.Config, error) {
 		return &tls.Config{}, err
 	}
 
-	cert_data, err := ioutil.ReadFile(pemfile)
+	cert_data, err := os.ReadFile(pemfile)
 	if err != nil {
 		return &tls.Config{}, err
 	}
