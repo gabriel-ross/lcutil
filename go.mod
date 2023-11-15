@@ -1,4 +1,4 @@
-module github.com/abatewongc/bartender-bastion
+module github.com/gabriel-ross/lcutil
 
 go 1.15
 
