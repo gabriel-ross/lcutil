@@ -1,14 +1,12 @@
-package league
+package lcutil
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
 	"regexp"
-
-	"github.com/gabriel-ross/lcutil/client"
-	cu "github.com/gabriel-ross/lcutil/client/clientutil"
 )
 
 type Client struct {
@@ -18,7 +16,7 @@ type Client struct {
 }
 
 // Both operating systems produce an output where we can find the important pieces for Client
-func newClient(output []byte) (client.Client, error) {
+func newClient(output []byte) (*Client, error) {
 	ports := regexp.MustCompile(`--app-port=([0-9]*)`).FindAllSubmatch(output, 1)
 	paths := regexp.MustCompile(`--install-directory=([\w//-_]*)`).FindAllSubmatch(output, 1)
 	tokens := regexp.MustCompile(`--remoting-auth-token=([\w-_]*)`).FindAllSubmatch(output, 1)
@@ -45,7 +43,7 @@ func (c *Client) URL(uri string) (u url.URL, err error) {
 }
 
 func (c *Client) NewRequest(req_type string, u url.URL, form []byte) (*http.Request, error) {
-	req, err := client.DefaultNewRequest(req_type, u, form)
+	req, err := DefaultNewRequest(req_type, u, form)
 	if err != nil {
 		return req, err
 	}
@@ -61,7 +59,7 @@ func (c *Client) Get(u url.URL) (*http.Response, error) {
 		return &http.Response{}, err
 	}
 
-	return cu.HttpClient.Do(req)
+	return HttpClient.Do(req)
 }
 
 func (c *Client) Post(u url.URL, data []byte) (*http.Response, error) {
@@ -70,7 +68,26 @@ func (c *Client) Post(u url.URL, data []byte) (*http.Response, error) {
 		return &http.Response{}, err
 	}
 
-	return cu.HttpClient.Do(req)
+	return HttpClient.Do(req)
+}
+
+// Basic way to create a request to most APIs
+func DefaultNewRequest(req_type string, u url.URL, data []byte) (req *http.Request, err error) {
+	raw := u.String()
+
+	if data != nil {
+		req, err = http.NewRequest(req_type, raw, bytes.NewReader(data))
+		req.Header.Add("Content-Type", "application/json")
+	} else {
+		req, err = http.NewRequest(req_type, raw, nil)
+	}
+
+	if err != nil {
+		return &http.Request{}, err
+	}
+
+	return req, err
+
 }
 
 var (

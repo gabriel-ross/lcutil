@@ -1,6 +1,7 @@
-// +build linux, darwin
+//go:build (linux && ignore) || darwin
+// +build linux,ignore darwin
 
-package clientutil
+package lcutil
 
 import (
 	"os/user"

@@ -8,7 +8,7 @@
 //
 // Checks env -> file -> doesn't care
 
-package clientutil
+package lcutil
 
 import (
 	"crypto/tls"

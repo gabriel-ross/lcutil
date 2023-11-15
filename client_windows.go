@@ -1,15 +1,14 @@
-package league
+package lcutil
 
 import (
 	"strings"
 
-	"github.com/gabriel-ross/lcutil/client"
 	"github.com/shirou/gopsutil/v3/process"
 )
 
 // Creates a new client from an already open league of legends client using commands
 // that are related to a windows based system
-func NewClient() (client.Client, error) {
+func NewClient() (*Client, error) {
 	var invocation string
 	var err error
 	processes, _ := process.Processes()

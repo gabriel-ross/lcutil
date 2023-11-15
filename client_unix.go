@@ -1,18 +1,16 @@
 //go:build (linux && ignore) || darwin
 // +build linux,ignore darwin
 
-package league
+package lcutil
 
 import (
 	"bytes"
 	"os/exec"
-
-	"github.com/gabriel-ross/lcutil/client"
 )
 
 // Creates a new client from an already open league of legends client using commands
 // that are related to a unix based system
-func NewClient() (client.Client, error) {
+func NewClient() (*Client, error) {
 	some_byes, err := exec.Command("ps", "-A").Output()
 	if err != nil {
 		return &Client{}, NotRunningErr
