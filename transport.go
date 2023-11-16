@@ -88,8 +88,3 @@ var (
 	INVALID_CERT_ERR error = errors.New("Failed to load in the riot cert")
 	HTTP_CLIENT_ERR  error = errors.New("Failed to create an http client")
 )
-
-var (
-	// Add a do once to this when config gets added
-	HttpClient *http.Client = newHttpClient()
-)
